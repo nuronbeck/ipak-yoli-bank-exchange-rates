@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "dependencies": {
     "agent-base": "^6.0.2",
     "balanced-match": "^1.0.2",
@@ -16,6 +20,7 @@
     "cross-fetch": "^3.1.5",
     "debug": "^4.3.4",
     "devtools-protocol": "^0.0.1019158",
+    "dotenv": "^16.0.1",
     "end-of-stream": "^1.4.4",
     "extract-zip": "^2.0.1",
     "fd-slicer": "^1.1.0",
@@ -55,9 +60,6 @@
     "yauzl": "^2.10.0"
   },
   "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nuronbeck/ipak-yoli-bank-exchange-rates.git"
