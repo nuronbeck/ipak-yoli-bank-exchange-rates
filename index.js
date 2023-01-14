@@ -8,7 +8,7 @@ const port = process.env.PORT || 3000;
 
 app.use(cors({ origin: '*' }));
 
-app.get('/rates', async (req, res) => {
+app.get('/rate', async (req, res) => {
   let browser = null;
 
   if(!process.env.BANK_EXCHANGE_URL) {
