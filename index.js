@@ -1,17 +1,24 @@
 require('dotenv').config();
 const puppeteer = require('puppeteer');
+const express = require('express');
+const cors = require('cors');
 
-(async () => {
+const app = express();
+const port = process.env.PORT || 3000;
+
+app.use(cors({ origin: '*' }));
+
+app.get('/rates', async (req, res) => {
   let browser = null;
 
   if(!process.env.BANK_EXCHANGE_URL) {
     console.log(`Environment value doesn't exist!\n.env\n BANK_EXCHANGE_URL=${process.env.BANK_EXCHANGE_URL}\n`);
-
     process.exit();
   }
 
   try {
     browser = await puppeteer.launch();
+
     const page = await browser.newPage();
     await page.setViewport({ width: 768, height: 1080 });
 
@@ -32,7 +39,7 @@ const puppeteer = require('puppeteer');
     await page.goto(process.env.BANK_EXCHANGE_URL);
 
     const result = await page.$$eval('article table tbody tr', rows => {
-      const ACCEPTED_CURRENCIES = ["USD", "EUR", "GBP", "JPY"];
+      const ACCEPTED_CURRENCIES = ["USD", /* "EUR", "GBP", "JPY" */];
 
       const parsedData = Array.from(rows, row => {
         const rowColumns = row.querySelectorAll('td');
@@ -57,16 +64,19 @@ const puppeteer = require('puppeteer');
       return filteredData;
     });
 
-    console.log({ result });
+    res.status(200).send(result[0]);
   }
   catch (error) {
     console.log(error?.message);
+    res.status(400).send(error);
   }
   finally {
     if(browser){
       await browser.close();
     }
   }
+})
 
-
-})();
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`)
+})
